@@ -5,5 +5,5 @@ return [
     'placeholder' => 'What\'s your name?',
     'submit' => 'Set Name',
     'label' => 'Name',
-    'delete' => 'Delete Me',
+    'delete' => 'Delete me',
 ];
