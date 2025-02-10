@@ -48,7 +48,6 @@ return [
         'Logs' => EnhancedTailCommand::file(storage_path('logs/laravel.log')),
         'Vite' => 'bun run dev',
         'Http' => 'php artisan serve',
-        'Reverb' => 'php artisan reverb:start --debug',
         'Queue' => 'php artisan queue:work',
 
         // Lazy commands do no automatically start when Solo starts.
