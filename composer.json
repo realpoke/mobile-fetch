@@ -15,8 +15,7 @@
         "livewire/flux": "^1.1",
         "livewire/flux-pro": "^1.1",
         "livewire/livewire": "^3.5",
-        "pusher/pusher-php-server": "^7.2",
-        "turso/libsql-laravel": "dev-main"
+        "pusher/pusher-php-server": "^7.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
