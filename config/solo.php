@@ -47,7 +47,7 @@ return [
     'commands' => [
         'Logs' => EnhancedTailCommand::file(storage_path('logs/laravel.log')),
         'Vite' => 'bun run dev',
-        'Octane' => 'php artisan octane:start --watch --poll',
+        'Http' => 'php artisan serve',
         'Reverb' => 'php artisan reverb:start --debug',
         'Queue' => 'php artisan queue:work',
 
