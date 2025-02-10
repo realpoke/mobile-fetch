@@ -1,13 +1,10 @@
 {
-    "version": 2,
-        "framework": null,
     "functions": {
-        "api/index.php": { "runtime": "vercel-php@0.3.1" }
+        "api/index.php": { "runtime": "vercel-php@0.7.3" }
     },
-    "routes": [{
-        "src": "/(.*)",
-        "dist": "/api/index.php"
-    }],
+    "routes": [
+        { "src": "/(.*)",  "dest": "/api/index.php" }
+    ],
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
