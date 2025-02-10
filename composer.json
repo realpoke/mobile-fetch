@@ -16,7 +16,7 @@
         "livewire/flux-pro": "^1.1",
         "livewire/livewire": "^3.5",
         "pusher/pusher-php-server": "^7.2",
-        "turso/libsql-laravel": "^0.1.3"
+        "turso/libsql-laravel": "dev-main"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
@@ -70,7 +70,7 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "repositories": {
         "flux-pro": {

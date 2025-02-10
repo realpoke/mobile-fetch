@@ -43,9 +43,11 @@ return [
         ],
 
         'libsql' => [
-            'driver' => 'libsql',
+            'driver' => env('DB_CONNECTION', 'libsql'),
+            'database' => env('DB_DATABASE', database_path('dev.db')),
             'url' => env('TURSO_DATABASE_URL'),
             'password' => env('TURSO_AUTH_TOKEN'),
+            'prefix' => env('DB_PREFIX', ''),
         ],
 
         'mysql' => [
