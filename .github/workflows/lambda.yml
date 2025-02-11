@@ -1,0 +1,96 @@
+name: Deploy to AWS Lambda
+
+on:
+  push:
+    branches:
+      - production
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      # This step checks out a copy of your repository.
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # This step sets up Node.js environment.
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies with NPM
+        run: "npm install"
+
+      # This step installs the Serverless Framework globally.
+      - name: Install Serverless Framework
+        run: |
+          npm install -g serverless
+          serverless plugin install -n serverless-lift
+
+      # This step sets up PHP environment with the specified version.
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        env:
+          COMPOSER_AUTH_JSON: |
+            {
+              "http-basic": {
+                "composer.fluxui.dev": {
+                  "username": "${{ secrets.FLUX_USERNAME }}",
+                  "password": "${{ secrets.FLUX_LICENSE_KEY }}"
+                }
+              }
+            }
+
+      # This step installs Composer dependencies with the specified options.
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--prefer-dist --optimize-autoloader --no-dev"
+
+      - name: Build application
+        run: "npm run build"
+
+      # Create .env file from .env.example and substitute environment variables
+      - name: Update .env file with secrets
+        run: |
+          cp ".env.example" ".env"
+          envsubst < ".env.example" > ".env"
+        env:
+          APP_KEY: ${{ secrets.APP_KEY }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          PUSHER_APP_ID: ${{ secrets.PUSHER_APP_ID }}
+          PUSHER_APP_KEY: ${{ secrets.PUSHER_APP_KEY }}
+          PUSHER_APP_SECRET: ${{ secrets.PUSHER_APP_SECRET }}
+
+      # This step deploys your application to AWS Lambda using the Serverless Framework.
+      - name: Deploy to AWS Lambda
+        uses: serverless/github-action@v3
+        with:
+          # args: -c "serverless plugin install --name serverless-s3-sync && serverless plugin install --name serverless-lift && serverless deploy --stage=production"
+          args: deploy --stage=production
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Pull version from .env.example
+        run: |
+          set -a
+          source .env.example
+          set +a
+          echo "PRE_RELEASE=$PRE_RELEASE" >> $GITHUB_ENV
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.TAG_NAME }}
+          release_name: "Release ${{ env.TAG_NAME }}"
+          draft: false
+          prerelease: ${{ env.PRE_RELEASE }}
+          generate_release_notes: true
+          make_latest: ${{ !env.PRE_RELEASE }}
+          token: ${{ secrets.RELEASE_TOKEN }}
