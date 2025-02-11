@@ -20,13 +20,7 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Install dependencies with NPM
-        run: "npm install"
-
-      # This step installs the Serverless Framework globally.
-      - name: Install Serverless Framework
-        run: |
-          npm install -g serverless
-          serverless plugin install -n serverless-lift
+        run: "npm ci"
 
       # This step sets up PHP environment with the specified version.
       - name: Setup PHP
@@ -68,10 +62,9 @@ jobs:
 
       # This step deploys your application to AWS Lambda using the Serverless Framework.
       - name: Deploy to AWS Lambda
-        uses: serverless/github-action@v3
+        uses: serverless/github-action@v3.2
         with:
-          # args: -c "serverless plugin install --name serverless-s3-sync && serverless plugin install --name serverless-lift && serverless deploy --stage=production"
-          args: deploy --stage=production
+          args: -c "serverless plugin install --name serverless-lift && serverless deploy --stage=production"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
