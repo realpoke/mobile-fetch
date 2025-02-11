@@ -20,6 +20,7 @@ To ensure your Laravel application deployed on AWS Lambda using Bref has the cor
 - **PUSHER_APP_ID**: Your Pusher application ID.
 - **PUSHER_APP_KEY**: Your Pusher application key.
 - **PUSHER_APP_SECRET**: Your Pusher application secret.
+- **RELEASE_TOKEN**: Your GitHub release token, (a [personal access token](https://github.com/settings/personal-access-tokens/new) with permission to create releases `Contents`).
 
 ### Conclusion
 
