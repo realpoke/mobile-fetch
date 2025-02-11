@@ -15,12 +15,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Create .env file from .env.example and substitute environment variables
+      - name: Update .env file with secrets
+        run: |
+          cp ".env.example" ".env"
+          envsubst < ".env.example" > ".env"
+        env:
+          APP_KEY: ${{ secrets.APP_KEY }}
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_DATABASE: ${{ secrets.DB_DATABASE }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          PUSHER_APP_ID: ${{ secrets.PUSHER_APP_ID }}
+          PUSHER_APP_KEY: ${{ secrets.PUSHER_APP_KEY }}
+          PUSHER_APP_SECRET: ${{ secrets.PUSHER_APP_SECRET }}
+
       # This step sets up Node.js environment.
       - name: Setup Node.js
         uses: actions/setup-node@v3
 
       - name: Install dependencies with NPM
-        run: "npm install --production=false"
+        run: "npm install"
 
       # This step sets up PHP environment with the specified version.
       - name: Setup PHP
@@ -44,21 +59,6 @@ jobs:
 
       - name: Build application
         run: "npm run build"
-
-      # Create .env file from .env.example and substitute environment variables
-      - name: Update .env file with secrets
-        run: |
-          cp ".env.example" ".env"
-          envsubst < ".env.example" > ".env"
-        env:
-          APP_KEY: ${{ secrets.APP_KEY }}
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          PUSHER_APP_ID: ${{ secrets.PUSHER_APP_ID }}
-          PUSHER_APP_KEY: ${{ secrets.PUSHER_APP_KEY }}
-          PUSHER_APP_SECRET: ${{ secrets.PUSHER_APP_SECRET }}
 
       # This step deploys your application to AWS Lambda using the Serverless Framework.
       - name: Deploy to AWS Lambda
