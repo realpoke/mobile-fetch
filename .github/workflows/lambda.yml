@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Install dependencies with NPM
-        run: "npm install"
+        run: "npm install --production=false"
 
       # This step sets up PHP environment with the specified version.
       - name: Setup PHP
