@@ -8,14 +8,14 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UpdatedListEvent implements ShouldBroadcastNow
+class DoneListEvent implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(private string $id, private string $password, public string $name)
+    public function __construct(private string $id, private string $password)
     {
         //
     }

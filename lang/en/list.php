@@ -13,4 +13,10 @@ return [
     'deleted' => 'List deleted!',
     'forgot' => 'List forgotten!',
     'updated' => 'List updated!',
+    'done' => 'Done :count fetches',
+    'all-done' => 'All done :count fetched',
+    'done-heading' => 'All fetched, :count fetches!',
+    'done-subheading' => 'Good job! You\'ve fetched all the items in your list.',
+    'done-close' => 'Close',
+    'full-reset' => 'Are you sure you want to reset this list? This will reset all items in the list.',
 ];

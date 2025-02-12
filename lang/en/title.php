@@ -1,5 +1,7 @@
 <?php
 
 return [
-    'name' => 'Name',
+    'name' => 'Welcome',
+    'landing' => 'New List',
+    'list' => 'List',
 ];

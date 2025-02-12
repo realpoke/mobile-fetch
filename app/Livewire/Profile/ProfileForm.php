@@ -31,4 +31,9 @@ class ProfileForm extends Form
             Cookie::queue(Cookie::forget('l_'.$id));
         }
     }
+
+    public function setupUser(string $name)
+    {
+        $this->name = $name;
+    }
 }
